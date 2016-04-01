@@ -1,0 +1,21 @@
+{
+  "name": "jukebox",
+  "version": "0.0.0",
+  "authors": [
+    "Nick Ferraro <nick.ferraro@hackreactor.com>"
+  ],
+  "license": "None",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.4",
+    "underscore": "~1.8.3",
+    "babel": "*",
+    "react": "~0.14.8"
+  }
+}
