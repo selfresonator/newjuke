@@ -1,2 +1,14 @@
-// Your ReactJS code here
+var App = React.createClass({
+  render: function() {
+    return (
+      <div>
+        Hello World!
+      </div>
+    )
+  }
+});
 
+
+ReactDOM.render( < App / > ,
+  document.getElementById('num1')
+);
