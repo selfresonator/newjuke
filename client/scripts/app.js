@@ -35,15 +35,6 @@ var GetUserName = React.createClass({
 ===========================MASTER AND DEPENDENTS================================
 ================================================================================
 */
-var PlaylistView = React.createClass({
-  render: function() {
-    return (
-      <div>
-        Playlist here
-      </div>
-    )
-  }
-});
 
 var SearchSoundCloud = React.createClass({
   getInitialState: function() {
@@ -55,16 +46,6 @@ var SearchSoundCloud = React.createClass({
   updateQuery: function(event) {
     this.setState({
       query: event.target.value
-    });
-  },
-
-  getTracks: function(genre) {
-    SC.get('/tracks', {
-      genre: genre
-    }, function(tracks) {
-      console.log(tracks)
-      var random = Math.floor(Math.random() * tracks.length - 1);
-      SC.oEmbed(tracks[random].uri, { auto_play: false, show_comments:true }, document.getElementById('trackselect'));
     });
   },
 
@@ -81,17 +62,49 @@ var SearchSoundCloud = React.createClass({
             autoComplete="false"/>
             <span></span>
         </div>
-        <h3 id="trackselect">Track selector { this.getTracks('vapowave') }</h3>
+      </div>
+    )
+  }
+});
+
+var PlayerView = React.createClass({
+
+  getTracks: function(genre) {
+    SC.initialize({
+      client_id: '6538538c1dce7251c50d3ac3109bcc29'
+    });
+    SC.get('/tracks', {
+      genre: genre,
+    }, function(tracks) {
+      console.log(tracks);
+      var random = Math.floor(Math.random() * tracks.length - 1);
+      SC.oEmbed(tracks[random].uri, { auto_play: false, show_comments:true, maxheight:166 }, document.getElementById('trackselect'));
+    });
+  },
+
+  render: function() {
+    return (
+      <div>
+        <span id="trackselect">Track player { this.getTracks('vapowave') }</span>
       </div>
     )
   }
 });
 
 var TrackSelector = React.createClass({
-
   render: function() {
     return (
       <div>TrackSelector</div>
+    )
+  }
+});
+
+var PlaylistView = React.createClass({
+  render: function() {
+    return (
+      <div>
+        Playlist here
+      </div>
     )
   }
 });
@@ -111,6 +124,7 @@ var JukeboxApp = React.createClass({
 
         <article className="container text-center">
           <SearchSoundCloud />
+          <PlayerView />
           <TrackSelector />
         </article>
 
