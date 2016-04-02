@@ -35,6 +35,16 @@ var GetUserName = React.createClass({
 ===========================MASTER AND DEPENDENTS================================
 ================================================================================
 */
+var PlaylistView = React.createClass({
+  render: function() {
+    return (
+      <div>
+        Playlist here
+      </div>
+    )
+  }
+});
+
 var SearchSoundCloud = React.createClass({
   getInitialState: function() {
     return {
@@ -45,6 +55,16 @@ var SearchSoundCloud = React.createClass({
   updateQuery: function(event) {
     this.setState({
       query: event.target.value
+    });
+  },
+
+  getTracks: function(genre) {
+    SC.get('/tracks', {
+      genre: genre
+    }, function(tracks) {
+      console.log(tracks)
+      var random = Math.floor(Math.random() * tracks.length - 1);
+      SC.oEmbed(tracks[random].uri, { auto_play: false, show_comments:true }, document.getElementById('trackselect'));
     });
   },
 
@@ -61,36 +81,44 @@ var SearchSoundCloud = React.createClass({
             autoComplete="false"/>
             <span></span>
         </div>
+        <h3 id="trackselect">Track selector { this.getTracks('vapowave') }</h3>
       </div>
     )
   }
 });
 
 var TrackSelector = React.createClass({
+
   render: function() {
     return (
-      <h4>Track selector</h4>
+      <div>TrackSelector</div>
     )
   }
 });
 
 var JukeboxApp = React.createClass({
+  // TODO: try and make this a modal. it looks better.
   render: function() {
     return (
       <section>
+
         <header className="container text-center">
           <Title />
           <div id="username">
             <GetUserName />
           </div>
         </header>
+
         <article className="container text-center">
           <SearchSoundCloud />
           <TrackSelector />
         </article>
+
         <footer className="fixed-footer">
           Footer
+          <PlaylistView />
         </footer>
+
       </section>
     )
   }
