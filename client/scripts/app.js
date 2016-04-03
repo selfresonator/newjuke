@@ -59,8 +59,8 @@ var SearchSoundCloud = React.createClass({
             className = "form-control"
             value = { this.state.query }
             onChange = { this.updateQuery }
-            autoComplete="false"/>
-            <span></span>
+            autoComplete="false"/><br/>
+            <input type="submit" value="Search!"/>
         </div>
       </div>
     )
@@ -68,42 +68,53 @@ var SearchSoundCloud = React.createClass({
 });
 
 var PlayerView = React.createClass({
+  getInitialState: function() {
+    return {tracks: []}
+  },
 
-  getTracks: function(genre) {
-    SC.initialize({
-      client_id: '6538538c1dce7251c50d3ac3109bcc29'
-    });
+  placeTrack: function(genre) {
+    var that = this;
     SC.get('/tracks', {
-      genre: genre,
+      genres: genre,
     }, function(tracks) {
-      console.log(tracks);
+      // that.setState({'tracks': tracks});
+      console.log('the tracklist: ',that.state.tracks);
+      // console.log('the tracks: ',tracks);
       var random = Math.floor(Math.random() * tracks.length - 1);
       SC.oEmbed(tracks[random].uri, { auto_play: false, show_comments:true, maxheight:166 }, document.getElementById('trackselect'));
+      // so here i need to put the line that will fill my
     });
   },
 
   render: function() {
     return (
-      <div>
-        <span id="trackselect">Track player { this.getTracks('vapowave') }</span>
-      </div>
+      <div id="trackselect">{ this.placeTrack('vaporwave') }</div>
     )
   }
 });
 
 var TrackSelector = React.createClass({
+
   render: function() {
     return (
-      <div>TrackSelector</div>
+      <div className="container">
+        <h2>TrackSelector</h2>
+          <ul className="list-group">
+            <li className="list-group-item list-group-item-info">First Track</li>
+            <li className="list-group-item list-group-item-info">Second Track</li>
+            <li className="list-group-item list-group-item-info">Third Track</li>
+          </ul>
+      </div>
     )
   }
 });
 
 var PlaylistView = React.createClass({
+
   render: function() {
     return (
       <div>
-        Playlist here
+         <div>Playlist here</div>
       </div>
     )
   }
@@ -129,7 +140,6 @@ var JukeboxApp = React.createClass({
         </article>
 
         <footer className="fixed-footer">
-          Footer
           <PlaylistView />
         </footer>
 
